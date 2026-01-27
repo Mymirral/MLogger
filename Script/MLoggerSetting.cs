@@ -10,23 +10,25 @@ namespace Script
     public class MLoggerSetting : ScriptableObject
     {
         [LabelText("输出Log等级")] public LogLevel LogLevel = LogLevel.Trace;
-        
-        [LabelText("输出Log分类")]
-        public LogCategory LogCategory = LogCategory.None;
+
+        [LabelText("输出Log分类")] public LogCategory LogCategory = LogCategory.None;
 
         #region 样式
+
+        [Space, Title("样式", null, TitleAlignments.Centered)] 
         
-        [Space,Title("样式",null,TitleAlignments.Centered)]
         [LabelText("等级与颜色")]
         public List<LogLevelStyle> logLevelStyle = new();
-        public Dictionary<LogLevel, Color> levelStyle = new();
+        public readonly Dictionary<LogLevel, string> levelStyle = new();
+        public readonly Dictionary<LogLevel, string> levelName = new();
         
         [LabelText("分类与颜色")]
         public List<LogCategoryStyle> logCategoryStyle = new();
-        public Dictionary<LogCategory, Color> categoryStyle = new();
+        public readonly Dictionary<LogCategory, string> categoryStyle = new();
+        public readonly Dictionary<LogCategory, string> categoryName = new();
         
+        public static readonly string DefaultStyle = "<color=#FFFFFF}>";
         #endregion
-
 
         [Space, Title("显示样式", null, TitleAlignments.Centered)]
         public LoggerType type;
@@ -40,7 +42,7 @@ namespace Script
         {
             levelStyle.Clear();
             categoryStyle.Clear();
-            
+
             #region 等级配置
 
             //如果没有配置，添加默认配置
@@ -52,14 +54,14 @@ namespace Script
             {
                 foreach (var style in logLevelStyle)
                 {
-                    levelStyle.TryAdd(style.level, style.colors);
+                    levelStyle.TryAdd(style.level, ColorText(style.colors));
                 }
             }
 
             #endregion
 
             #region 分类配置
-            
+
             if (logCategoryStyle.Count == 0)
             {
                 AddDefaultLogCategoryStyle();
@@ -68,10 +70,18 @@ namespace Script
             {
                 foreach (var style in logCategoryStyle)
                 {
-                    categoryStyle.TryAdd(style.category, style.colors);
+                    categoryStyle.TryAdd(style.category, ColorText(style.colors));
                 }
             }
+
             #endregion
+            
+            //字典生成
+            levelName.Clear();
+            categoryName.Clear();
+            
+            InitLevelNameDictionary();
+            InitCategoryNameDictionary();
         }
 
         /// <summary>
@@ -81,7 +91,7 @@ namespace Script
         {
             foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
             {
-                levelStyle.TryAdd(level, Color.green);
+                levelStyle.TryAdd(level, ColorText(Color.green));
             }
         }
 
@@ -92,8 +102,27 @@ namespace Script
         {
             foreach (LogCategory category in Enum.GetValues(typeof(LogCategory)))
             {
-                categoryStyle.TryAdd(category, Color.green);
+                categoryStyle.TryAdd(category, ColorText(Color.green));
             }
         }
+
+        //建立查表信息，避免GC
+        void InitLevelNameDictionary()
+        {
+            foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
+            {
+                levelName.TryAdd(level,level.ToString());
+            }
+        }
+
+        void InitCategoryNameDictionary()
+        {
+            foreach (LogCategory category in Enum.GetValues(typeof(LogCategory)))
+            {
+                categoryName.TryAdd(category, category.ToString());
+            }
+        }
+
+        private string ColorText(Color color) => $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>";
     }
 }
