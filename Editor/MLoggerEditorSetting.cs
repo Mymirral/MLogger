@@ -1,6 +1,3 @@
-using System;
-using Script.Sink;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -69,7 +66,7 @@ namespace Script
 
             this.setting = setting;
             
-            UnityConsoleSink.BindSetting(setting);
+            MLogger.BindSetting(setting);
         }
 
         Editor editor;
