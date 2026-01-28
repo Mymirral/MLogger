@@ -1,4 +1,5 @@
 using System;
+using Script.Sink;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -67,7 +68,8 @@ namespace Script
             var setting = AssetDatabase.LoadAssetAtPath<MLoggerSetting>(path);
 
             this.setting = setting;
-            MLogger.BindSetting(setting);
+            
+            UnityConsoleSink.BindSetting(setting);
         }
 
         Editor editor;

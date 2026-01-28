@@ -19,20 +19,25 @@ namespace Script
         
         [LabelText("等级与颜色")]
         public List<LogLevelStyle> logLevelStyle = new();
-        public readonly Dictionary<LogLevel, string> levelStyle = new();
+        public readonly Dictionary<LogLevel, string> levelStyleColorText = new();
+        public readonly Dictionary<LogLevel, Color> levelStyleColor = new();
         public readonly Dictionary<LogLevel, string> levelName = new();
         
         [LabelText("分类与颜色")]
         public List<LogCategoryStyle> logCategoryStyle = new();
-        public readonly Dictionary<LogCategory, string> categoryStyle = new();
+        public readonly Dictionary<LogCategory, string> categoryStyleColorText = new();
+        public readonly Dictionary<LogCategory, Color> categoryStyleColor = new();
         public readonly Dictionary<LogCategory, string> categoryName = new();
         
         public static readonly string DefaultStyle = "<color=#FFFFFF}>";
         #endregion
 
         [Space, Title("显示样式", null, TitleAlignments.Centered)]
+        
         public LoggerType type;
 
+        public bool showInGameScene;
+        
         private void OnEnable()
         {
             Init();
@@ -40,8 +45,8 @@ namespace Script
 
         public void Init()
         {
-            levelStyle.Clear();
-            categoryStyle.Clear();
+            levelStyleColorText.Clear();
+            categoryStyleColorText.Clear();
 
             #region 等级配置
 
@@ -54,7 +59,7 @@ namespace Script
             {
                 foreach (var style in logLevelStyle)
                 {
-                    levelStyle.TryAdd(style.level, ColorText(style.colors));
+                    levelStyleColorText.TryAdd(style.level, ColorText(style.colors));
                 }
             }
 
@@ -70,7 +75,7 @@ namespace Script
             {
                 foreach (var style in logCategoryStyle)
                 {
-                    categoryStyle.TryAdd(style.category, ColorText(style.colors));
+                    categoryStyleColorText.TryAdd(style.category, ColorText(style.colors));
                 }
             }
 
@@ -91,7 +96,7 @@ namespace Script
         {
             foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
             {
-                levelStyle.TryAdd(level, ColorText(Color.green));
+                levelStyleColorText.TryAdd(level, ColorText(Color.green));
             }
         }
 
@@ -102,7 +107,7 @@ namespace Script
         {
             foreach (LogCategory category in Enum.GetValues(typeof(LogCategory)))
             {
-                categoryStyle.TryAdd(category, ColorText(Color.green));
+                categoryStyleColorText.TryAdd(category, ColorText(Color.green));
             }
         }
 

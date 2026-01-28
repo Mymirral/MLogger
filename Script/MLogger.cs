@@ -1,84 +1,49 @@
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using Script;
 using Script.Data;
-using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
+using Script.Interface;
+using Script.Sink;
+using UnityEngine;
 
 public static class MLogger
 {
-    public static MLoggerSetting setting;
-
-    //保证每个线程都有一个sb,每个线程都会单独访问一边sb去初始化
-    [ThreadStatic] private static StringBuilder _log;
-    private static StringBuilder log => _log ??= new StringBuilder();
-
-    public static void BindSetting(MLoggerSetting asset) => setting = asset;
+    //静态构造，保证初始化时注册控制台输出
+    static MLogger()
+    {
+        var console = new UnityConsoleSink();
+        AddSink(console);
+    }
     
-    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
-    public static void Log(string message,LogLevel level = LogLevel.Trace, LogCategory category = LogCategory.None, Object obj = null)
-    {
-        if (!setting)
-        {
-            Debug.LogError("[MLogger] 未配置，请配置LogSetting，并放置在Resources文件夹下");
-            return;
-        }
-        
-        //展示等级/分类样式
-        bool showLevel = setting.type == LoggerType.Level;
+    //静态加只读，保证只初始化一次，0GC
+    private static readonly List<ILogSink> Sinks = new();
 
-        //是否能输出
-        bool canLog = LogFilter(level) && LogFilter(category);
-        if (!canLog) return;
-        
-        //输出
-        var colorType = showLevel ? GetColor(level) : GetColor(category);
-        
-        message = LogMessage(message,setting.levelName[level],setting.categoryName[category],colorType);
-        
-        //低级别
-        if((level & (LogLevel.Trace | LogLevel.Debug | LogLevel.Info)) != 0) Debug.Log(message,obj);
-        //中级别
-        if((level & LogLevel.Warning) != 0) Debug.LogWarning(message,obj);
-        //高级别
-        if((level & (LogLevel.Error | LogLevel.Fatal)) != 0) Debug.LogError(message,obj);
-    }
-    private static bool LogFilter(LogLevel level)
+    /// <summary>
+    /// 注册Log接收对象，这些对象会输出所有数据
+    /// </summary>
+    /// <param name="sink">接收者</param>
+    public static void AddSink(ILogSink sink)
     {
-        LogLevel levelFilter = setting.LogLevel;
-        return (level & levelFilter) != 0;
+        if (!Sinks.Contains(sink)) Sinks.Add(sink);
     }
-    private static bool LogFilter(LogCategory category)
+
+    /// <summary>
+    /// 清除Log接收对象
+    /// </summary>
+    /// <param name="sink">接收者</param>
+    public static void RemoveSink(ILogSink sink)
     {
-        if(category == LogCategory.None) return true;
-        LogCategory categoryFilter = setting.LogCategory;
-        return (category & categoryFilter) != 0;
+        Sinks.Remove(sink);
     }
-    private static string GetColor(LogLevel level)
+    
+    // 通用Log，输出到多渠道
+    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
+    public static void Log(string msg, LogLevel level, LogCategory category,Object context)
     {
-        if(!setting.levelStyle.TryGetValue(level, out var color)) color = MLoggerSetting.DefaultStyle;
-        return color;
-    }
-    private static string GetColor(LogCategory category)
-    {
-        //字典中找得到,按照字典配置,否则为白色
-        if(!setting.categoryStyle.TryGetValue(category, out var color)) color = MLoggerSetting.DefaultStyle;
-        return color;
-    }
-    private static string LogMessage(string message, string level,string category, string color)
-    {
-        log.Clear();
-        log.Append(color);
-        log.Append("[");
-        log.Append(level);
-        log.Append("] ");
-        log.Append("(");
-        log.Append(category);
-        log.Append("): ");
-        log.Append(message);
-        log.Append("</color>");
-        
-        return log.ToString();
+        var Log = new LogEntry(msg, level, category, context);
+
+        foreach (var sink in Sinks)
+        {
+            sink.Emit(Log);
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Script
         [Button("测试输出")]
         public void DebugCategory(string msg)
         {
-            MLogger.Log(msg, level, category,this);
+            MLogger.Log(msg,level,category,this);
         }
     }
 }
