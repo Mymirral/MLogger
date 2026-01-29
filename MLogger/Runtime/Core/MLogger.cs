@@ -18,8 +18,13 @@ namespace MLogger.Runtime.Core
             setting ??= Resources.Load<MLoggerSetting>("MLoggerSetting");
 #endif
         
-            var console = new UnityConsoleSink();
-            AddSink(console);
+            //控制台界面
+            var consoleSink = new UnityConsoleSink();
+            AddSink(consoleSink);
+
+            //log文件写入
+            var logfileSink = new LogFileSink();
+            AddSink(logfileSink);
         }
     
         //静态加只读，保证只初始化一次，0GC

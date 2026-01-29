@@ -31,7 +31,7 @@ namespace MLogger.Runtime.Sink
             var setting = Core.MLogger.setting;
             
             //日志流输出，大于最大数量，删除最早的一条log
-            if(logQueue.Count > maxLogCount) logQueue.Dequeue();
+            while(logQueue.Count >= maxLogCount) logQueue.Dequeue();
             logQueue.Enqueue(entry);
             
             //展示等级/分类样式
