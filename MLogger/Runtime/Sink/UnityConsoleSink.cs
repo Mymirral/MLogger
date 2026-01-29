@@ -12,8 +12,19 @@ namespace MLogger.Runtime.Sink
     public sealed class UnityConsoleSink : ILogSink
     {
         //保证每个线程都有一个sb,每个线程都会单独访问一边sb去初始化
-        [ThreadStatic] private static StringBuilder _log;
-        private static StringBuilder log => _log ??= new StringBuilder();
+        private StringBuilder _log;
+        private StringBuilder log => _log ??= new StringBuilder();
+
+        public void Open()
+        {
+            Core.MLogger.AddSink(this);
+        }
+
+        public void Close()
+        {
+            Core.MLogger.RemoveSink(this);
+        }
+
         public void Emit(in LogEntry entry)
         {
             var level = entry.Level;
@@ -26,20 +37,10 @@ namespace MLogger.Runtime.Sink
             
             //展示等级/分类样式
             var colorType = setting.IsShowLevel() ? setting.GetColorText(level) : setting.GetColorText(category);
+            
             //输出字符串
-            message = LogMessage(message, setting.levelName[level], setting.categoryName[category], colorType);
-
-            //低级别
-            if ((level & (LogLevel.Trace | LogLevel.Debug | LogLevel.Info)) != 0) Debug.Log(message, obj);
-            //中级别
-            if ((level & LogLevel.Warning) != 0) Debug.LogWarning(message, obj);
-            //高级别
-            if ((level & (LogLevel.Error | LogLevel.Fatal)) != 0) Debug.LogError(message, obj);
-        }
-        private string LogMessage(string message, string level, string category, string color)
-        {
             log.Clear();
-            log.Append(color);
+            log.Append(colorType);
             log.Append("[");
             log.Append(level);
             log.Append("] (");
@@ -47,8 +48,15 @@ namespace MLogger.Runtime.Sink
             log.Append("): ");
             log.Append(message);
             log.Append("</color>");
+            
+            message = log.ToString();
 
-            return log.ToString();
+            //低级别
+            if ((level & (LogLevel.Trace | LogLevel.Debug | LogLevel.Info)) != 0) Debug.Log(message, obj);
+            //中级别
+            if ((level & LogLevel.Warning) != 0) Debug.LogWarning(message, obj);
+            //高级别
+            if ((level & (LogLevel.Error | LogLevel.Fatal)) != 0) Debug.LogError(message, obj);
         }
     }
 }

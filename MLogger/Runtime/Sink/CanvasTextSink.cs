@@ -15,13 +15,27 @@ namespace MLogger.Runtime.Sink
         
         private static readonly StringBuilder msgBuilder  =  new(2048);
         private static readonly Queue<LogEntry> logQueue = new();
+
+        #region Unity
         
         private void OnEnable()
+        {
+            Open();
+        }
+
+        private void OnDisable()
+        {
+            Close();
+        }
+
+        #endregion
+        
+        public void Open()
         {
             //添加接收者
             Core.MLogger.AddSink(this);
         }
-        private void OnDisable()
+        public void Close()
         {
             //移除接收
             Core.MLogger.RemoveSink(this);
@@ -62,7 +76,6 @@ namespace MLogger.Runtime.Sink
             
             canvasTexts.text = msgBuilder.ToString();
         }
-        
         public void Clear()
         {
             logQueue.Clear();
