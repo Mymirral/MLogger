@@ -1,13 +1,13 @@
+using MLogger.Runtime.Config;
 using UnityEditor;
 using UnityEngine;
 
-namespace Script
+namespace MLogger.Editor
 {
     public class MLoggerEditorSetting : EditorWindow
     {
-        
         MLoggerSetting setting;
-    
+
         [MenuItem("Tools/Logger Output Setting")]
         static void OpenSettingWindow()
         {
@@ -25,13 +25,14 @@ namespace Script
             DrawSettingField();
             DrawFindAssetBtn();
             EditorGUILayout.EndVertical();
-            
+
             DrawAssetField();
             DrawRefreshBtn();
         }
+
         private void DrawSettingField()
         {
-            EditorGUILayout.ObjectField("配置文件",setting, typeof(MLoggerSetting), false);
+            EditorGUILayout.ObjectField("配置文件", setting, typeof(MLoggerSetting), false);
         }
 
         private void DrawFindAssetBtn()
@@ -65,34 +66,35 @@ namespace Script
             var setting = AssetDatabase.LoadAssetAtPath<MLoggerSetting>(path);
 
             this.setting = setting;
-            
-            MLogger.BindSetting(setting);
+
+            Runtime.Core.MLogger.BindSetting(setting);
         }
 
-        Editor editor;
+        UnityEditor.Editor editor;
+
         private void DrawAssetField()
         {
             GUILayout.Space(20);
             if (setting)
             {
-                GUIStyle centeredStyle = new GUIStyle(GUI.skin.label); 
+                GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
                 centeredStyle.alignment = TextAnchor.MiddleCenter;
-                centeredStyle.fontSize = 16; 
+                centeredStyle.fontSize = 16;
                 centeredStyle.fontStyle = FontStyle.Bold;
-                
-                GUILayout.Label("输出配置" , centeredStyle, GUILayout.Height(30));
+
+                GUILayout.Label("输出配置", centeredStyle, GUILayout.Height(30));
                 GUILayout.Space(10);
-                
+
                 //编辑器为空/编辑器的绘制对象不为配置
                 if (!editor || editor.target != setting)
                 {
-                    editor = Editor.CreateEditor(setting);
+                    editor = UnityEditor.Editor.CreateEditor(setting);
                 }
-                
+
                 editor.OnInspectorGUI();
             }
         }
-        
+
         private void DrawRefreshBtn()
         {
             GUILayout.Space(20);
