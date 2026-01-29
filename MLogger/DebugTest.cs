@@ -1,9 +1,8 @@
-using Script.Data;
+using MLogger.Runtime.Data;
 using Sirenix.OdinInspector;
-using UnityEditor.Scripting;
 using UnityEngine;
 
-namespace Script
+namespace MLogger
 {
     public class DebugTest : MonoBehaviour
     {
@@ -13,7 +12,7 @@ namespace Script
         [Button("测试输出")]
         public void DebugCategory(string msg)
         {
-            MLogger.Log(msg,level,category,this);
+            Runtime.Core.MLogger.Log(msg,level,category,this);
         }
     }
 }

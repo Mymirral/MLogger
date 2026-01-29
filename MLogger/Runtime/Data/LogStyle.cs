@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Script.Data
+namespace MLogger.Runtime.Data
 {
     [Serializable]
     public class LogLevelStyle

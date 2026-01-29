@@ -1,6 +1,6 @@
-﻿using Script.Data;
+﻿using MLogger.Runtime.Data;
 
-namespace Script.Interface
+namespace MLogger.Runtime.Interface
 {
     public interface ILogSink
     {

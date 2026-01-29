@@ -1,6 +1,6 @@
 using System;
 
-namespace Script.Data
+namespace MLogger.Runtime.Data
 {
     [Flags]
     public enum LogLevel

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Script.Data
+namespace MLogger.Runtime.Data
 {
     // 使用Struct，保证无GC
     public readonly struct LogEntry

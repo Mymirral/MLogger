@@ -1,4 +1,4 @@
-namespace Script.Data
+namespace MLogger.Runtime.Data
 {
     public enum LoggerType
     {

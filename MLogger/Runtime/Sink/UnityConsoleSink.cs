@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text;
-using Script.Data;
-using Script.Interface;
+using MLogger.Runtime.Data;
+using MLogger.Runtime.Interface;
 using Debug = UnityEngine.Debug;
 
-namespace Script.Sink
+namespace MLogger.Runtime.Sink
 {
     /// <summary>
     /// 0GC 控制台输出
@@ -22,7 +22,7 @@ namespace Script.Sink
             var obj = entry.Context;
 
             //输出
-            var setting = MLogger.setting;
+            var setting = Core.MLogger.setting;
             
             //展示等级/分类样式
             var colorType = setting.IsShowLevel() ? setting.GetColorText(level) : setting.GetColorText(category);

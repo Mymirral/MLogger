@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Script.Data;
+using MLogger.Runtime.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Script
+namespace MLogger.Runtime.Config
 {
     [CreateAssetMenu(fileName = "MLoggerSetting", menuName = "MirralDevTool/MLoggerSetting")]
     public class MLoggerSetting : ScriptableObject
