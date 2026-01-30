@@ -1,34 +1,33 @@
 using System;
 using System.Collections.Generic;
-using MLogger.Runtime.Data;
-using Sirenix.OdinInspector;
+using MirralLoggerSystem.Runtime.Model;
 using UnityEngine;
 
-namespace MLogger.Runtime.Config
+namespace MirralLoggerSystem.Runtime.Config
 {
     [CreateAssetMenu(fileName = "MLoggerSetting", menuName = "MirralDevTool/MLoggerSetting")]
     public class MLoggerSetting : ScriptableObject
     {
-
         #region 输出设置
-        [LabelText("输出Log等级")] public LogLevel LogLevel = LogLevel.Trace;
+        
+        [Header("输出Log等级")]
+        public LogLevel LogLevel = LogLevel.Trace;
+        [Header("输出Log分类")]
+        public LogCategory LogCategory = LogCategory.None;
 
-        [LabelText("输出Log分类")] public LogCategory LogCategory = LogCategory.None;
         #endregion
 
         #region 样式
-
-        [Space, Title("样式", null, TitleAlignments.Centered)] 
         
-        [LabelText("等级与颜色")]
+        [Space,Header("等级与颜色")]
+
         public List<LogLevelStyle> logLevelStyle = new();
 
         private readonly Dictionary<LogLevel, string> levelStyleColorText = new();
         private readonly Dictionary<LogLevel, Color> levelStyleColor = new();
         public readonly Dictionary<LogLevel, string> levelName = new();
         
-        [LabelText("分类与颜色")]
-        public List<LogCategoryStyle> logCategoryStyle = new();
+        [Header("分类与颜色")]  public List<LogCategoryStyle> logCategoryStyle = new();
 
         private readonly Dictionary<LogCategory, string> categoryStyleColorText = new();
         private readonly Dictionary<LogCategory, Color> categoryStyleColor = new();
@@ -36,20 +35,21 @@ namespace MLogger.Runtime.Config
 
         private static readonly string DefaultColorStyleText = "<color=#FFFFFF}>";
         private static readonly Color DefaultColorStyle = Color.white;
-        #endregion
 
-        [Space, Title("显示样式", null, TitleAlignments.Centered)]
+        #endregion
         
+        [Space, Header("显示样式")]
         public LoggerType type;
 
         public bool showInGameScene;
-        
+
         private void OnEnable()
         {
             Init();
         }
 
         #region 初始化
+
         public void Init()
         {
             levelStyleColorText.Clear();
@@ -82,11 +82,11 @@ namespace MLogger.Runtime.Config
             }
 
             #endregion
-            
+
             //字典生成
             levelName.Clear();
             categoryName.Clear();
-            
+
             InitLevelNameDictionary();
             InitCategoryNameDictionary();
         }
@@ -138,7 +138,7 @@ namespace MLogger.Runtime.Config
         {
             foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
             {
-                levelName.TryAdd(level,level.ToString());
+                levelName.TryAdd(level, level.ToString());
             }
         }
 
@@ -151,11 +151,11 @@ namespace MLogger.Runtime.Config
         }
 
         #endregion
-        
+
         #region 查询方法
 
         public bool IsShowLevel() => type == LoggerType.Level;
-        
+
         /// <summary>
         /// 筛选设置的可输出等级
         /// </summary>
@@ -166,7 +166,7 @@ namespace MLogger.Runtime.Config
             LogLevel levelFilter = LogLevel;
             return (level & levelFilter) != 0;
         }
-        
+
         /// <summary>
         /// 筛选可输出分类，类别为None，不参与输出
         /// </summary>
@@ -178,7 +178,7 @@ namespace MLogger.Runtime.Config
             LogCategory categoryFilter = LogCategory;
             return (category & categoryFilter) != 0;
         }
-        
+
         /// <summary>
         /// 获取输出等级的颜色字符串
         /// </summary>
@@ -189,7 +189,7 @@ namespace MLogger.Runtime.Config
             var color = levelStyleColorText.GetValueOrDefault(level, DefaultColorStyleText);
             return color;
         }
-        
+
         /// <summary>
         /// 获取输出分类的颜色字符串
         /// </summary>
@@ -201,7 +201,7 @@ namespace MLogger.Runtime.Config
             var color = categoryStyleColorText.GetValueOrDefault(category, DefaultColorStyleText);
             return color;
         }
-        
+
         /// <summary>
         /// 获取输出等级的颜色
         /// </summary>
@@ -225,7 +225,7 @@ namespace MLogger.Runtime.Config
         }
 
         #endregion
-        
+
         private string ColorText(Color color) => $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>";
     }
 }

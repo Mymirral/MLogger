@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using System.Threading;
-using MLogger.Runtime.Data;
-using MLogger.Runtime.Interface;
-using MLogger.Runtime.Tools;
-using UnityEngine;
+using MirralLoggerSystem.Runtime.Model;
+using MirralLoggerSystem.Runtime.Util;
 
-namespace MLogger.Runtime.Sink
+namespace MirralLoggerSystem.Runtime.Sink
 {
     //runtime Only
     public class LogFileSink : ILogSink
@@ -136,6 +133,8 @@ namespace MLogger.Runtime.Sink
 
         private string WriteMessage(LogEntry log)
         {
+            var setting = Core.MLogger.setting;
+            
             var message = log.Message;
             var level = log.Level;
             var category = log.Category;
@@ -145,10 +144,10 @@ namespace MLogger.Runtime.Sink
 
             logBuilder.Append(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm:ss.fff"));
             logBuilder.Append("[");
-            logBuilder.Append(level);
+            logBuilder.Append(setting.levelName[level]);
             logBuilder.Append("] ");
             logBuilder.Append("(");
-            logBuilder.Append(category);
+            logBuilder.Append(setting.categoryName[category]);
             logBuilder.Append(") ");
             logBuilder.Append(message);
 

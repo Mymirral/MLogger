@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace MLogger.Runtime.Tools
+namespace MirralLoggerSystem.Runtime.Util
 {
     public static class LogFileManager
     {

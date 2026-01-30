@@ -1,6 +1,6 @@
-﻿using MLogger.Runtime.Data;
+﻿using MirralLoggerSystem.Runtime.Model;
 
-namespace MLogger.Runtime.Interface
+namespace MirralLoggerSystem.Runtime.Sink
 {
     public interface ILogSink
     {

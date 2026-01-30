@@ -1,8 +1,8 @@
-using MLogger.Runtime.Config;
+using MirralLoggerSystem.Runtime.Config;
 using UnityEditor;
 using UnityEngine;
 
-namespace MLogger.Editor
+namespace MirralLoggerSystem.Editor
 {
     public class MLoggerEditorSetting : EditorWindow
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace MLogger.Runtime.Data
+namespace MirralLoggerSystem.Runtime.Model
 {
     [Flags]
     public enum LogLevel

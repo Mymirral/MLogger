@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
-using MLogger.Runtime.Data;
-using MLogger.Runtime.Interface;
+using MirralLoggerSystem.Runtime.Model;
 using TMPro;
 using UnityEngine;
 
-namespace MLogger.Runtime.Sink
+namespace MirralLoggerSystem.Runtime.Sink
 {
     public class CanvasTextSink : MonoBehaviour, ILogSink
     {
@@ -63,10 +61,10 @@ namespace MLogger.Runtime.Sink
             
                 msgBuilder.Append(colorType);
                 msgBuilder.Append("[");
-                msgBuilder.Append(level);
+                msgBuilder.Append(setting.levelName[level]);
                 msgBuilder.Append("] ");
                 msgBuilder.Append("(");
-                msgBuilder.Append(category);
+                msgBuilder.Append(setting.categoryName[category]);
                 msgBuilder.Append(") ");
                 msgBuilder.Append(message);
                 msgBuilder.Append("</color>");

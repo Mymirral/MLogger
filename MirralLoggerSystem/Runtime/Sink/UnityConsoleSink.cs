@@ -1,10 +1,8 @@
-﻿using System;
-using System.Text;
-using MLogger.Runtime.Data;
-using MLogger.Runtime.Interface;
+﻿using System.Text;
+using MirralLoggerSystem.Runtime.Model;
 using Debug = UnityEngine.Debug;
 
-namespace MLogger.Runtime.Sink
+namespace MirralLoggerSystem.Runtime.Sink
 {
     /// <summary>
     /// 0GC 控制台输出
@@ -43,9 +41,9 @@ namespace MLogger.Runtime.Sink
             log.Clear();
             log.Append(colorType);
             log.Append("[");
-            log.Append(level);
+            log.Append(setting.levelName[level]);
             log.Append("] (");
-            log.Append(category);
+            log.Append(setting.categoryName[category]);
             log.Append("): ");
             log.Append(message);
             log.Append("</color>");
