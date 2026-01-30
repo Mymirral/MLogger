@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using MLogger.Runtime.Data;
 using MLogger.Runtime.Interface;
+using MLogger.Runtime.Tools;
 using UnityEngine;
 
 namespace MLogger.Runtime.Sink
@@ -17,7 +18,7 @@ namespace MLogger.Runtime.Sink
         private int logCapacity = 1024;
         private long logReadIndex;
         private long logWriteIndex;
-        
+
         private StringBuilder _log;
         private StringBuilder logBuilder => _log ??= new(256);
 
@@ -45,18 +46,14 @@ namespace MLogger.Runtime.Sink
 
             logs = new LogEntry[logCapacity];
 
-            string fileName = $"MLogger_{DateTime.Now:yyyy-MM-dd_HH-mm}.log";
-            string path = Path.Combine(Application.persistentDataPath, "MLogger",fileName);
-            string dir = Path.GetDirectoryName(path);
-
-            if(!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-
-            fileStream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read);
+            LogFileManager.CleanUpLast();
+            
+            fileStream = new FileStream(LogFileManager.path, FileMode.Append, FileAccess.Write, FileShare.Read);
             streamWriter = new StreamWriter(fileStream, Encoding.UTF8, 4096);
 
             //后台线程，用于写入
             running = true;
-            
+
             thread = new Thread(WriteFileLoop) { IsBackground = true };
             thread.Start();
         }
@@ -65,18 +62,20 @@ namespace MLogger.Runtime.Sink
         {
             // 结束线程
             running = false;
+            semaphoreSlim.Release();
             thread.Join();
-            
+
             //取消接收
             Core.MLogger.RemoveSink(this);
 
             // 清除sb
             logBuilder.Clear();
-            
+
             //如果队列里还有剩余日志，直接输出
             while (logReadIndex < logWriteIndex)
             {
-                var log = logs[++logReadIndex % logCapacity];
+                ++logReadIndex;
+                var log = logs[logReadIndex % logCapacity];
                 streamWriter.WriteLine(WriteMessage(log));
             }
 
@@ -84,24 +83,28 @@ namespace MLogger.Runtime.Sink
             streamWriter?.Flush();
             streamWriter?.Dispose();
             fileStream?.Dispose();
+            semaphoreSlim.Dispose();
+            thread = null;
         }
 
         public void Emit(in LogEntry log)
         {
             //防止未启动线程调用
             if (!running) return;
-            
+
             //索引从0开始
             var index = Interlocked.Increment(ref logWriteIndex) - 1;
             logs[index % logCapacity] = log;
-            
+
             //写追上读，抛弃最老的
             var r = Volatile.Read(ref logReadIndex);
+            
+            //写的索引-读的索引 = 一个最大log长度  相当于
             if (index - r >= logCapacity)
             {
                 Interlocked.Increment(ref logReadIndex);
             }
-            
+
             //放行
             semaphoreSlim.Release();
         }
@@ -110,11 +113,15 @@ namespace MLogger.Runtime.Sink
         {
             while (running)
             {
-                semaphoreSlim.Wait();
-                
+                if (Volatile.Read(ref logReadIndex) >= Volatile.Read(ref logWriteIndex))
+                {
+                    semaphoreSlim.Wait();
+                    continue;
+                }
+
                 var index = Interlocked.Increment(ref logReadIndex) - 1;
                 var log = logs[index % logCapacity];
-                
+
                 streamWriter.WriteLine(WriteMessage(log));
 
                 Interlocked.Increment(ref flushCounter);
@@ -136,7 +143,7 @@ namespace MLogger.Runtime.Sink
             //展示等级/分类样式
             logBuilder.Clear();
 
-            logBuilder.Append(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+            logBuilder.Append(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm:ss.fff"));
             logBuilder.Append("[");
             logBuilder.Append(level);
             logBuilder.Append("] ");
