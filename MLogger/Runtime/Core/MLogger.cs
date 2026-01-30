@@ -23,13 +23,15 @@ namespace MLogger.Runtime.Core
             consoleSink.Open();
         }
     
-        //静态加只读，保证只初始化一次，0GC
+        //静态加只读，保证只初始化一次
         private static readonly List<ILogSink> Sinks = new();
     
         //只有一份配置
         public static MLoggerSetting setting;
     
         public static void BindSetting(MLoggerSetting asset) => setting = asset;
+
+        #region 注册
 
         /// <summary>
         /// 注册Log接收对象，这些对象会输出所有数据
@@ -49,7 +51,18 @@ namespace MLogger.Runtime.Core
         {
             Sinks.Remove(sink);
         }
-    
+
+        public static void Close()
+        {
+            //逆序解绑
+            for (var i = Sinks.Count - 1; i >= 0 ; i--)
+            {
+                Sinks[i].Close();
+            }
+        }
+        
+        #endregion
+       
         // 通用Log，输出到多渠道
         [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
         public static void Log(string msg, LogLevel level, LogCategory category,Object context)

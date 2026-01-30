@@ -12,10 +12,7 @@ namespace MLogger.Runtime.Core
             logfileSink.Open();
             
             // 监听退出
-            Application.quitting += () =>
-            {
-                logfileSink.Close();
-            };
+            Application.quitting += MLogger.Close;
         }
     }
 }

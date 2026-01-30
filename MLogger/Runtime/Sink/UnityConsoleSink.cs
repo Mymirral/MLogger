@@ -22,6 +22,7 @@ namespace MLogger.Runtime.Sink
 
         public void Close()
         {
+            log.Clear();
             Core.MLogger.RemoveSink(this);
         }
 
