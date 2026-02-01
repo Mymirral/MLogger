@@ -7,5 +7,12 @@
   "author": {
     "name": "Mirral",
     "url": "https://github.com/Mymirral"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Config Usage",
+      "description": "Basic usage example of MLogger",
+      "path": "Samples~"
+    }
+    ]
 }
