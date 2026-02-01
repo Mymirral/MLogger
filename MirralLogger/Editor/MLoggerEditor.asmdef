@@ -1,0 +1,16 @@
+{
+    "name": "MLoggerEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:573d5e2d2fb858446989518fdf3bc6fc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
