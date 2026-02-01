@@ -1,7 +1,7 @@
 {
   "name": "com.mirral.mlogger",
   "displayName": "MLogger",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "unity": "2021.3",
   "description": "High-performance, style editable, low GC, extensible logging system for Unity.",
   "author": {
