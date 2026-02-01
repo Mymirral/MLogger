@@ -1,6 +1,6 @@
 using System;
 
-namespace MirralLoggerSystem.Runtime.Model
+namespace MirralLogger.Runtime.Model
 {
     //自定义分类
     [Flags]

@@ -35,4 +35,4 @@ MonoBehaviour:
   - category: 4
     colors: {r: 1, g: 0, b: 0.7468281, a: 1}
   type: 0
-  showInGameScene: 0
+  debugCanvas: {fileID: 3765461490776463678, guid: a945185f1fff2b64b8fc2e3aad71a31b, type: 3}

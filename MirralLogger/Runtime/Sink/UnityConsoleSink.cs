@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using MirralLoggerSystem.Runtime.Model;
+using MirralLogger.Runtime.Model;
 using Debug = UnityEngine.Debug;
 
-namespace MirralLoggerSystem.Runtime.Sink
+namespace MirralLogger.Runtime.Sink
 {
     /// <summary>
     /// 0GC 控制台输出

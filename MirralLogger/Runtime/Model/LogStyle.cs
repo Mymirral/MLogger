@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MirralLoggerSystem.Runtime.Model
+namespace MirralLogger.Runtime.Model
 {
     [Serializable]
     public class LogLevelStyle

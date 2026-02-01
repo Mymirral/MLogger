@@ -1,12 +1,14 @@
-using MirralLoggerSystem.Runtime.Config;
+using MirralLogger.Runtime.Config;
 using UnityEditor;
 using UnityEngine;
 
-namespace MirralLoggerSystem.Editor
+namespace MirralLogger.Editor
 {
     public class MLoggerEditorSetting : EditorWindow
     {
         MLoggerSetting setting;
+        
+        GameObject debugPanel;
 
         [MenuItem("Tools/Logger Output Setting")]
         static void OpenSettingWindow()
@@ -28,18 +30,22 @@ namespace MirralLoggerSystem.Editor
 
             DrawAssetField();
             DrawRefreshBtn();
+
+            DrawGameDebugCanvas();
         }
 
+        #region Draw
+        
         private void DrawSettingField()
         {
-            EditorGUILayout.ObjectField("配置文件", setting, typeof(MLoggerSetting), false);
+            EditorGUILayout.ObjectField("Config Assets", setting, typeof(MLoggerSetting), false);
         }
 
         private void DrawFindAssetBtn()
         {
             GUILayout.Space(10);
             //绘制按钮
-            if (GUILayout.Button("查找MLogger配置文件"))
+            if (GUILayout.Button("Find MLogger Config Asset"))
             {
                 FindAsset();
             }
@@ -82,7 +88,7 @@ namespace MirralLoggerSystem.Editor
                 centeredStyle.fontSize = 16;
                 centeredStyle.fontStyle = FontStyle.Bold;
 
-                GUILayout.Label("输出配置", centeredStyle, GUILayout.Height(30));
+                GUILayout.Label("OutputConfig", centeredStyle, GUILayout.Height(30));
                 GUILayout.Space(10);
 
                 //编辑器为空/编辑器的绘制对象不为配置
@@ -99,10 +105,33 @@ namespace MirralLoggerSystem.Editor
         {
             GUILayout.Space(20);
 
-            if (GUILayout.Button("刷新"))
+            if (GUILayout.Button("Refresh"))
             {
                 setting.Init();
             }
         }
+
+        private void DrawGameDebugCanvas()
+        {
+            GUILayout.Space(20);
+            if (GUILayout.Button("Display/Hide GameDebug Panel"))
+            {
+                if(!debugPanel)
+                {
+                    //Try to Find Debug Panel
+                    debugPanel = GameObject.Find("MDebugPanel");
+                    if (!debugPanel)
+                    {
+                        var panel = Instantiate(setting.debugCanvas.gameObject);
+                        panel.name = "MDebugPanel";
+                        return;
+                    }
+                }
+                debugPanel.SetActive(!debugPanel.activeSelf);
+            }
+        }
+        
+        #endregion
+        
     }
 }

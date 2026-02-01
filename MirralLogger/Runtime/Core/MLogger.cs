@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using MirralLoggerSystem.Runtime.Config;
-using MirralLoggerSystem.Runtime.Model;
-using MirralLoggerSystem.Runtime.Sink;
+using MirralLogger.Runtime.Config;
+using MirralLogger.Runtime.Model;
+using MirralLogger.Runtime.Sink;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace MirralLoggerSystem.Runtime.Core
+namespace MirralLogger.Runtime.Core
 {
     public static class MLogger
     {
@@ -61,10 +61,10 @@ namespace MirralLoggerSystem.Runtime.Core
         }
         
         #endregion
-       
+
         // 通用Log，输出到多渠道
         [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
-        public static void Log(string msg, LogLevel level, LogCategory category,Object context = null)
+        public static void Log(string msg, LogLevel level = LogLevel.Trace, LogCategory category = LogCategory.None,Object context = null)
         {
             if (!setting)
             {

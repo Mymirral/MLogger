@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Text;
-using MirralLoggerSystem.Runtime.Model;
+using MirralLogger.Runtime.Model;
 using TMPro;
 using UnityEngine;
 
-namespace MirralLoggerSystem.Runtime.Sink
+namespace MirralLogger.Runtime.Sink
 {
     public class CanvasTextSink : MonoBehaviour, ILogSink
     {

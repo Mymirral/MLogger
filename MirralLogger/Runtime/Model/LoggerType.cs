@@ -1,4 +1,4 @@
-namespace MirralLoggerSystem.Runtime.Model
+namespace MirralLogger.Runtime.Model
 {
     public enum LoggerType
     {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace MirralLoggerSystem.Runtime.Util
+namespace MirralLogger.Runtime.Util
 {
     public static class LogFileManager
     {
@@ -35,7 +35,7 @@ namespace MirralLoggerSystem.Runtime.Util
 
             var length = files.Length;
             
-            while (length > MaxLogCount)
+            while (length >= MaxLogCount)
             {
                 File.Delete(files[length - 1]);
                 length--;

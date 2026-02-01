@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MirralLoggerSystem.Runtime.Model
+namespace MirralLogger.Runtime.Model
 {
     // 使用Struct，保证无GC
     public readonly struct LogEntry

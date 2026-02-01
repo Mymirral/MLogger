@@ -2,10 +2,10 @@
 using System.IO;
 using System.Text;
 using System.Threading;
-using MirralLoggerSystem.Runtime.Model;
-using MirralLoggerSystem.Runtime.Util;
+using MirralLogger.Runtime.Model;
+using MirralLogger.Runtime.Util;
 
-namespace MirralLoggerSystem.Runtime.Sink
+namespace MirralLogger.Runtime.Sink
 {
     //runtime Only
     public class LogFileSink : ILogSink

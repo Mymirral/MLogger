@@ -1,25 +1,25 @@
 using System;
 using System.Collections.Generic;
-using MirralLoggerSystem.Runtime.Model;
+using MirralLogger.Runtime.Model;
 using UnityEngine;
 
-namespace MirralLoggerSystem.Runtime.Config
+namespace MirralLogger.Runtime.Config
 {
     [CreateAssetMenu(fileName = "MLoggerSetting", menuName = "MirralDevTool/MLoggerSetting")]
     public class MLoggerSetting : ScriptableObject
     {
         #region 输出设置
         
-        [Header("输出Log等级")]
+        [Header("Output Level")]
         public LogLevel LogLevel = LogLevel.Trace;
-        [Header("输出Log分类")]
+        [Header("Output Category")]
         public LogCategory LogCategory = LogCategory.None;
 
         #endregion
 
         #region 样式
         
-        [Space,Header("等级与颜色")]
+        [Space,Header("Level Style")]
 
         public List<LogLevelStyle> logLevelStyle = new();
 
@@ -27,7 +27,7 @@ namespace MirralLoggerSystem.Runtime.Config
         private readonly Dictionary<LogLevel, Color> levelStyleColor = new();
         public readonly Dictionary<LogLevel, string> levelName = new();
         
-        [Header("分类与颜色")]  public List<LogCategoryStyle> logCategoryStyle = new();
+        [Header("Category Style")]  public List<LogCategoryStyle> logCategoryStyle = new();
 
         private readonly Dictionary<LogCategory, string> categoryStyleColorText = new();
         private readonly Dictionary<LogCategory, Color> categoryStyleColor = new();
@@ -38,11 +38,12 @@ namespace MirralLoggerSystem.Runtime.Config
 
         #endregion
         
-        [Space, Header("显示样式")]
+        [Space, Header("Show Type")]
         public LoggerType type;
-
-        public bool showInGameScene;
-
+        
+        [Space, Header("Debug Canvas Prefab")]
+        public Canvas debugCanvas;
+        
         private void OnEnable()
         {
             Init();

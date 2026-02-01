@@ -1,7 +1,7 @@
-using MirralLoggerSystem.Runtime.Sink;
+using MirralLogger.Runtime.Sink;
 using UnityEngine;
 
-namespace MirralLoggerSystem.Runtime.Core
+namespace MirralLogger.Runtime.Core
 {
     public static class MLoggerBootstrap
     {

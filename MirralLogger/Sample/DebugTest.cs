@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using MirralLoggerSystem.Runtime.Core;
-using MirralLoggerSystem.Runtime.Model;
+using MirralLogger.Runtime.Core;
+using MirralLogger.Runtime.Model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MirralLoggerSystem
+namespace MirralLogger
 {
     public class DebugTest : MonoBehaviour
     {
@@ -22,25 +22,27 @@ namespace MirralLoggerSystem
 
         private void Start()
         {
-            if(!inputField) MLogger.Log("组件缺失",LogLevel.Warning,LogCategory.None,this);
+            if(!inputField) MLogger.Log("Component missing",LogLevel.Warning,LogCategory.None,this);
             
-            if(!levelDropdown) MLogger.Log("组件缺失",LogLevel.Warning,LogCategory.None,this);
+            if(!levelDropdown) MLogger.Log("Component missing",LogLevel.Warning,LogCategory.None,this);
             else
             {
+                levelDropdown.ClearOptions();
                 levelDropdown.AddOptions(Enum.GetNames(typeof(LogLevel)).ToList());
-                levelDropdown.onValueChanged.AddListener(val => level = (LogLevel)((val+1) * Mathf.Sqrt(2f)));
+                levelDropdown.onValueChanged.AddListener(val => level = (LogLevel)(1 << val));
             }
             
-            if(!categoryDropdown) MLogger.Log("组件缺失",LogLevel.Warning,LogCategory.None,this);
+            if(!categoryDropdown) MLogger.Log("Component missing",LogLevel.Warning,LogCategory.None,this);
             else
             {
+                categoryDropdown.ClearOptions();
                 categoryDropdown.AddOptions(Enum.GetNames(typeof(LogCategory)).ToList());
-                categoryDropdown.onValueChanged.AddListener(val => category = (LogCategory)((val) * Mathf.Sqrt(2f)));
+                categoryDropdown.onValueChanged.AddListener(val => category = (LogCategory)(val == 0 ? 0 : 1 << val));
             }
 
             if (!button)
             {
-                MLogger.Log("组件缺失",LogLevel.Warning,LogCategory.None,this);
+                MLogger.Log("Component missing",LogLevel.Warning,LogCategory.None,this);
             }
             else
             {
