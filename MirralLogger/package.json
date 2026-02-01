@@ -12,7 +12,7 @@
     {
       "displayName": "Sample Config Usage",
       "description": "Basic usage example of MLogger",
-      "path": "Samples~"
+      "path": "MirralLogger/Samples~"
     }
     ]
 }
