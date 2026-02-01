@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc9aeceea984c539ad866c525f99db3, type: 3}
+  m_Name: MLoggerSetting
+  m_EditorClassIdentifier: 
+  LogLevel: 63
+  LogCategory: 7
+  logLevelStyle:
+  - level: 1
+    colors: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+  - level: 2
+    colors: {r: 0, g: 1, b: 1, a: 1}
+  - level: 4
+    colors: {r: 0.5416938, g: 1, b: 0, a: 1}
+  - level: 8
+    colors: {r: 1, g: 0.8895351, b: 0, a: 1}
+  - level: 16
+    colors: {r: 1, g: 0.42834565, b: 0, a: 1}
+  - level: 32
+    colors: {r: 1, g: 0, b: 0, a: 1}
+  logCategoryStyle:
+  - category: 1
+    colors: {r: 0.17515779, g: 1, b: 0, a: 1}
+  - category: 2
+    colors: {r: 0.8962264, g: 0.4438857, b: 0.4438857, a: 1}
+  - category: 4
+    colors: {r: 1, g: 0, b: 0.7468281, a: 1}
+  type: 0
+  debugCanvas: {fileID: 3765461490776463678, guid: a945185f1fff2b64b8fc2e3aad71a31b, type: 3}
