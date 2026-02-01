@@ -1,7 +1,7 @@
 # LogSystem For Unity / Unity日志系统
 
 ## Install / 安装
-* **UPM方式**: 在Unity Package Manager中添加 `https://github.com/Mymirral/MLogger#path=MirralLoggerSystem`
+* **UPM方式**: 在Unity Package Manager中添加 `https://github.com/Mymirral/MLogger.git?path=MirralLogger`
 * **手动安装**: 下载MirralLogger文件夹并放入Assets目录
 
 ## Features / 功能特性
