@@ -21,7 +21,7 @@ namespace MirralLogger.Runtime.Sink
 
         //线程
         private Thread thread;
-        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly AutoResetEvent autoResetEvent = new(false);
 
         //文件流
         private FileStream fileStream;
@@ -59,7 +59,7 @@ namespace MirralLogger.Runtime.Sink
         {
             // 结束线程
             running = false;
-            semaphoreSlim.Release();
+            autoResetEvent.Set();
             thread.Join();
 
             //取消接收
@@ -80,7 +80,6 @@ namespace MirralLogger.Runtime.Sink
             streamWriter?.Flush();
             streamWriter?.Dispose();
             fileStream?.Dispose();
-            semaphoreSlim.Dispose();
             thread = null;
         }
 
@@ -103,7 +102,7 @@ namespace MirralLogger.Runtime.Sink
             }
 
             //放行
-            semaphoreSlim.Release();
+            autoResetEvent.Set();
         }
 
         private void WriteFileLoop()
@@ -112,7 +111,7 @@ namespace MirralLogger.Runtime.Sink
             {
                 if (Volatile.Read(ref logReadIndex) >= Volatile.Read(ref logWriteIndex))
                 {
-                    semaphoreSlim.Wait();
+                    autoResetEvent.WaitOne();
                     continue;
                 }
 

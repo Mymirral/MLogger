@@ -3,6 +3,7 @@ using System.Text;
 using MirralLogger.Runtime.Model;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace MirralLogger.Runtime.Sink
 {

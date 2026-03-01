@@ -71,6 +71,7 @@ namespace MirralLogger
             if (isContinuous)
             {
                 StartCoroutine(DebugLoop(msg));
+                return;
             }
             MLogger.Log(msg, level, category, this);
         }
