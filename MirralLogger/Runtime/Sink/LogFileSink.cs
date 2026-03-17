@@ -39,7 +39,7 @@ namespace MirralLogger.Runtime.Sink
             if (running) return;
 
             //加入接收者队列
-            Core.MLogger.AddSink(this);
+            Core.MLoggerBuilder.AddSink(this);
 
             logs = new LogEntry[logCapacity];
 
@@ -63,7 +63,7 @@ namespace MirralLogger.Runtime.Sink
             thread.Join();
 
             //取消接收
-            Core.MLogger.RemoveSink(this);
+            Core.MLoggerBuilder.RemoveSink(this);
 
             // 清除sb
             logBuilder.Clear();

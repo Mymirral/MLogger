@@ -73,7 +73,7 @@ namespace MirralLogger.Editor
 
             this.setting = setting;
 
-            Runtime.Core.MLogger.BindSetting(setting);
+            Runtime.Core.MLoggerBuilder.BindSetting(setting);
         }
 
         UnityEditor.Editor editor;

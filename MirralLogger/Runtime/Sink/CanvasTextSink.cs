@@ -32,12 +32,12 @@ namespace MirralLogger.Runtime.Sink
         public void Open()
         {
             //添加接收者
-            Core.MLogger.AddSink(this);
+            Core.MLoggerBuilder.AddSink(this);
         }
         public void Close()
         {
             //移除接收
-            Core.MLogger.RemoveSink(this);
+            Core.MLoggerBuilder.RemoveSink(this);
         }
         public void Emit(in LogEntry entry)
         {

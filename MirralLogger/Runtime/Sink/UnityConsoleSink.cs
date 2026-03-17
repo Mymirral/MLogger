@@ -15,13 +15,13 @@ namespace MirralLogger.Runtime.Sink
 
         public void Open()
         {
-            Core.MLogger.AddSink(this);
+            Core.MLoggerBuilder.AddSink(this);
         }
 
         public void Close()
         {
             log.Clear();
-            Core.MLogger.RemoveSink(this);
+            Core.MLoggerBuilder.RemoveSink(this);
         }
 
         public void Emit(in LogEntry entry)

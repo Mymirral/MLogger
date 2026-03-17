@@ -12,7 +12,7 @@ namespace MirralLogger.Runtime.Core
             logfileSink.Open();
             
             // 监听退出
-            Application.quitting += MLogger.Close;
+            Application.quitting += MLoggerBuilder.Close;
         }
     }
 }
