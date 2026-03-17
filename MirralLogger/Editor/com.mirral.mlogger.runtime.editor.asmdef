@@ -1,5 +1,5 @@
 {
-    "name": "MLoggerEditor",
+    "name": "com.mirral.mlogger.runtime.editor",
     "rootNamespace": "",
     "references": [
         "GUID:573d5e2d2fb858446989518fdf3bc6fc"
