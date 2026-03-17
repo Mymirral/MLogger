@@ -26,9 +26,9 @@ namespace MirralLogger.Runtime.Core
         private static readonly List<ILogSink> Sinks = new();
     
         //只有一份配置
-        public static MLoggerSetting setting;
+        internal static MLoggerSetting setting;
     
-        public static void BindSetting(MLoggerSetting asset) => setting = asset;
+        internal static void BindSetting(MLoggerSetting asset) => setting = asset;
 
         #region 注册
 
@@ -36,7 +36,7 @@ namespace MirralLogger.Runtime.Core
         /// 注册Log接收对象，这些对象会输出所有数据
         /// </summary>
         /// <param name="sink">接收者</param>
-        public static void AddSink(ILogSink sink)
+        internal static void AddSink(ILogSink sink)
         {
             if(sink == null) return;
             if (!Sinks.Contains(sink)) Sinks.Add(sink);
@@ -46,12 +46,12 @@ namespace MirralLogger.Runtime.Core
         /// 清除Log接收对象
         /// </summary>
         /// <param name="sink">接收者</param>
-        public static void RemoveSink(ILogSink sink)
+        internal static void RemoveSink(ILogSink sink)
         {
             Sinks.Remove(sink);
         }
 
-        public static void Close()
+        internal static void Close()
         {
             //逆序解绑
             for (var i = Sinks.Count - 1; i >= 0 ; i--)

@@ -7,8 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MirralLogger
-{
+
     public class DebugTest : MonoBehaviour
     {
         public LogLevel level = LogLevel.Info;
@@ -85,4 +84,3 @@ namespace MirralLogger
             }
         }
     }
-}
