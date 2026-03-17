@@ -14,5 +14,9 @@
       "description": "Basic usage example of MLogger",
       "path": "MLoggerSamples~/BasicUsage"
     }
-    ]
+    ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mymirral/MLogger.git"
+  }
 }
